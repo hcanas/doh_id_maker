@@ -29,15 +29,17 @@ class EmployeeVerificationController extends Controller
                     });
             })
             ->first();
-    
-        $employee_name = $employee->given_name.' '
-            .$employee->middle_name.' '
-            .$employee->family_name.' '
-            .$employee->name_suffix;
         
-        return response()->json($employee
-            ? trim($employee_name).' is active.'
-            : trim($employee_name).' is no longer active.'
-        );
+        if ($employee) {
+            $employee_name = $employee->given_name.' '
+                .$employee->middle_name.' '
+                .$employee->family_name.' '
+                .$employee->name_suffix;
+    
+            return response()->json(trim($employee_name).' is active.');
+            
+        } else {
+            return response()->json('No records found.');
+        }
     }
 }
