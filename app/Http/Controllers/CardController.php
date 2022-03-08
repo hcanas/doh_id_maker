@@ -210,11 +210,7 @@ class CardController extends Controller
         $template_front->insert($avatar->encode(), 'center', -180, -220);
     
         $template_front_2 = Image::make(Storage::get('public/templates/jc_front_2.png'));
-        $template_front_2->resize($template_front_2->width() - 24, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        
-        $template_front->insert($template_front_2->encode(), 'center', 0, 150);
+        $template_front->insert($template_front_2->encode(), 'center', 0, 00);
     
         // nickname
         $nickname = $employee->nickname ?? explode(' ', $employee->given_name)[0];
