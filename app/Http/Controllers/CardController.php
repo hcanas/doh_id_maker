@@ -360,8 +360,8 @@ class CardController extends Controller
         
         $qr_border = Image::canvas(260, 260, '#298e67');
         
-        $template_back->insert($qr_border->encode('png'), 'center', 395, 670);
-        $template_back->insert($qrcode->encode(), 'center', 395, 670);
+        $template_back->insert($qr_border->encode('png'), 'center', 395, 682);
+        $template_back->insert($qrcode->encode(), 'center', 395, 682);
         
         Storage::put('public/cards/front_'.($employee->photo ?? 'placeholder.png'), (string) $template_front->encode());
         Storage::put('public/cards/back_'.($employee->photo ?? 'placeholder.png'), (string) $template_back->encode());
