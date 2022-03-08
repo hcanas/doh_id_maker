@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -140,10 +135,21 @@ class EmployeeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        try {
+            $employee = Employee::find($id);
+            
+            if ($employee === null) {
+                return response()->json('Employee not found.', 404);
+            }
+            
+            $employee->delete();
+        } catch (\Exception $e) {
+            logger($e);
+            return response()->json('Unable to delete employee. Please try again later.', 500);
+        }
     }
 }

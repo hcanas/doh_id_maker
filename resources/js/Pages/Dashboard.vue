@@ -34,7 +34,7 @@
   </breeze-authenticated-layout>
 
   <modal :show="modal.show">
-    <component :is="modal.component" :data="modal.data" @created-employee="createdEmployee" @updated-employee="updatedEmployee" @cancel="closeModal" />
+    <component :is="modal.component" :data="modal.data" @created-employee="createdEmployee" @updated-employee="updatedEmployee" @deleted-employee="deletedEmployee" @cancel="closeModal" />
   </modal>
 </template>
 
@@ -46,6 +46,7 @@
   import BreezeButton from '@/Components/Button.vue';
   import Modal from '@/Components/Modal.vue';
   import EmployeeForm from "@/Forms/EmployeeForm.vue";
+  import EmployeeConfirmDelete from "@/Forms/EmployeeConfirmDelete.vue";
 
   import "ag-grid-community/dist/styles/ag-grid.css";
   import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -64,6 +65,7 @@
       BreezeButton,
       Modal,
       EmployeeForm,
+      EmployeeConfirmDelete,
     },
     setup() {
       const grid_api = ref(null);
@@ -254,6 +256,9 @@
             break;
 
           case 'delete':
+            modal.show = true;
+            modal.component = 'employee-confirm-delete';
+            modal.data = params.data;
             break;
         }
       };
@@ -278,6 +283,12 @@
         closeModal();
       };
 
+      const deletedEmployee = id => {
+        grid_api.value.applyTransaction({ remove: [{ id }] });
+
+        closeModal();
+      };
+
       const closeModal = () => {
         modal.show = false;
         modal.component = '';
@@ -293,6 +304,7 @@
         newEmployeeForm,
         createdEmployee,
         updatedEmployee,
+        deletedEmployee,
         closeModal,
       };
     },
