@@ -75,6 +75,10 @@
         data: null,
       });
 
+      axios.get('/api/auth')
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error.response.data));
+
       const column_defs = [
         {
           cellRenderer: params => '<div class="flex items-center space-x-4">' +

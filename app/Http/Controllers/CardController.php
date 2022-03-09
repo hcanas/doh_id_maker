@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -15,6 +16,10 @@ class CardController extends Controller
      */
     public function __invoke($id)
     {
+        if (Auth::user()->name !== 'ICT') {
+            abort(403);
+        }
+        
         $employee = Employee::find($id);
         
         if ($employee === null) {
@@ -48,7 +53,7 @@ class CardController extends Controller
         $avatar->resize(399, 399);
         $avatar->mask($avatar_reshape->encode('png'), true);
     
-        $template_front->insert($avatar->encode(), 'center', -481, 108);
+        $template_front->insert($avatar->encode(), 'center', -481, 111);
     
         $employee_name = $employee->given_name.' '
             .$employee->middle_name.' '
